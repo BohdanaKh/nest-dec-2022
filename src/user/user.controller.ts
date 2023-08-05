@@ -7,16 +7,19 @@ import {
   Patch,
   Post,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { UserCreateDto } from './dto/user.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Users')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(AuthGuard())
   @Get('list')
   async getUserList() {
     return this.userService.getAllUsers();
@@ -24,7 +27,7 @@ export class UserController {
 
   @Post('account/create')
   async createUserAccount(@Req() req: any, @Body() body: UserCreateDto) {
-    return this.userService.createUserAccount(body);
+    return this.userService.createUser(body);
   }
 
   @Get(':userId')
@@ -37,8 +40,8 @@ export class UserController {
     return this.userService.deleteUserAccount(id);
   }
 
-  @Patch(':userId')
-  async updateUserProfile(@Param('userId') id: string, @Body() body: any) {
-    return this.userService.updateUserAccount(id, body);
-  }
+  // @Patch(':userId')
+  // async updateUserProfile(@Param('userId') id: string, @Body() body: any) {
+  //   return this.userService.updateUserAccount(id, body);
+  // }
 }

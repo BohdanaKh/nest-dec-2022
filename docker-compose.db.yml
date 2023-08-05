@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  dec-2022-postgres1:
+    image: postgis/postgis
+    ports:
+      - '${POSTGRES_EXTERNAL_PORT:-5432}:5432'
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: dec-2022Kh
+    volumes:
+      - dec-2022Kh-db:/var/lib/postgresql/dec-2022Kh
+
+volumes:
+  dec-2022Kh-db:
